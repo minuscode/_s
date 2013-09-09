@@ -1,0 +1,7 @@
+.env
+log/
+node_modules/
+.rvmrc
+.DS_Store
+
+Procfile
