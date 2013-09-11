@@ -4,9 +4,9 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     properties: {
-      build_dir:     'build',
-      build_css_dir: '<%= properties.build_dir %>/css',
-      build_js_dir:  '<%= properties.build_dir %>/js'
+      css_dir: 'assets/css',
+      js_dir:  'assets/js',
+      img_dir: 'assets/img'
     },
     // Metadata.
     meta: {
@@ -23,14 +23,24 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          '<%= properties.build_css_dir %>/style.css': 'css/style.scss'
+          '<%= properties.css_dir %>/style.css': '<%= properties.css_dir %>/src/style.scss'
         }
       }
     },
     uglify: {
       build: {
-        src: ['js/libs/*.js', 'js/plugins/*.js', 'js/*.js'],
-        dest: '<%= properties.build_js_dir %>/main.min.js'
+        options: {
+          sourceMap: '<%= properties.js_dir %>/main.js.map',
+          sourceMappingURL: 'main.js.map',
+          sourceMapPrefix: 2
+        },
+        files: {
+          '<%= properties.js_dir %>/main.min.js': [
+            '<%= properties.js_dir %>/src/libs/*.js',
+            '<%= properties.js_dir %>/src/plugins/*.js',
+            '<%= properties.js_dir %>/src/js/*.js'
+          ]
+        }
       }
     },
     watch: {
@@ -38,7 +48,15 @@ module.exports = function(grunt) {
         livereload: true,
         spawn: false
       },
-      files: ['**/*'],
+      livereload {
+        files: [
+          '<%= properties.css_dir %>/style.css',
+          '<%= properties.js_dir %>/*.js',
+          '<%= properties.img_dir %>/**/*.{png, jpg, jpeg, gif, webp, svg}',
+          '*.php'
+        ]
+      },
+      files: ['assets/**/*'],
       tasks: ['sass', 'uglify']
     }
   });
